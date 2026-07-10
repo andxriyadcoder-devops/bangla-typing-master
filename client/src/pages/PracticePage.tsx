@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import TypingText from "../components/typing/TypingText";
 import HiddenInput from "../components/typing/HiddenInput";
@@ -23,24 +23,14 @@ export default function PracticePage() {
     setLessonId,
   } = useLesson();
 
-  if (!lesson) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
-        Lesson not found.
-      </div>
-    );
-  }
-
-  // Lesson পরিবর্তন হলে Input Clear হবে
-  useEffect(() => {
-    setInput("");
-  }, [lessonId]);
+  // সব Hook সবসময় আগে কল হবে
+  const lessonText = lesson?.text ?? "";
 
   const seconds = useTypingTimer(input.length > 0);
 
   const result = useMemo(
-    () => compareText(lesson.text, input),
-    [lesson.text, input]
+    () => compareText(lessonText, input),
+    [lessonText, input]
   );
 
   const accuracy = calculateAccuracy(
@@ -52,29 +42,38 @@ export default function PracticePage() {
     setInput("");
   };
 
+  const handleLessonChange = (id: number) => {
+    setLessonId(id);
+    setInput("");
+  };
+
+  // সব Hook-এর পরে Return Check
+  if (!lesson) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+        Lesson not found.
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="min-h-screen bg-slate-950 text-white">
-
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-24 lg:flex-row">
 
-          {/* ================= LEFT SIDEBAR ================= */}
-
+          {/* Sidebar */}
           <aside className="w-full lg:w-80">
-
             <h2 className="mb-5 text-2xl font-bold">
               Lessons
             </h2>
 
             <LessonList
               activeLessonId={lessonId}
-              onSelect={setLessonId}
+              onSelect={handleLessonChange}
             />
-
           </aside>
 
-          {/* ================= RIGHT CONTENT ================= */}
-
+          {/* Main Content */}
           <main className="flex-1">
 
             <h1 className="mb-2 text-4xl font-bold">
@@ -91,7 +90,7 @@ export default function PracticePage() {
             />
 
             <div
-              className="cursor-text rounded-2xl border border-slate-700 bg-slate-900 p-8"
+              className="mt-6 cursor-text rounded-2xl border border-slate-700 bg-slate-900 p-8"
               onClick={() =>
                 (
                   document.querySelector(
@@ -156,9 +155,7 @@ export default function PracticePage() {
             />
 
           </main>
-
         </div>
-
       </div>
 
       <TestCompleted

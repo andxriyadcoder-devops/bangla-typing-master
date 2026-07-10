@@ -11,7 +11,7 @@ export default function TestCompleted({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/70">
-      <div className="w-[420px] rounded-2xl bg-slate-900 p-8 text-center text-white">
+      <div className="w-105 rounded-2xl bg-slate-900 p-8 text-center text-white">
 
         <h2 className="mb-4 text-3xl font-bold">
           🎉 Test Completed
