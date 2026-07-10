@@ -13,6 +13,7 @@ import useTypingTimer from "../hooks/useTypingTimer";
 import useLesson from "../hooks/useLesson";
 
 import LessonList from "../features/lessons/LessonList";
+import Keyboard from "../keyboard/Keyboard";
 
 export default function PracticePage() {
   const [input, setInput] = useState("");
@@ -152,6 +153,9 @@ export default function PracticePage() {
 
             <RestartButton
               onRestart={handleRestart}
+            />
+            <Keyboard 
+              activeKey={input.slice(-1)}
             />
 
           </main>
