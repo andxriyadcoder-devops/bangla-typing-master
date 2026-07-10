@@ -1,24 +1,46 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
 import TypingText from "../components/typing/TypingText";
 import HiddenInput from "../components/typing/HiddenInput";
 import StatsBar from "../components/typing/StatsBar";
+import ProgressBar from "../components/typing/ProgressBar";
+import RestartButton from "../components/typing/RestartButton";
+import TestCompleted from "../components/typing/TestCompleted";
 
 import { compareText } from "../engine/matcher/compare";
 import { calculateAccuracy } from "../engine/stats/calculate";
-
 import useTypingTimer from "../hooks/useTypingTimer";
+import useLesson from "../hooks/useLesson";
 
-const sampleText =
-  "আমি বাংলায় টাইপ করতে শিখছি। প্রতিদিন অনুশীলন করলে আমার গতি এবং নির্ভুলতা বৃদ্ধি পাবে।";
+import LessonList from "../features/lessons/LessonList";
 
 export default function PracticePage() {
   const [input, setInput] = useState("");
 
+  const {
+    lesson,
+    lessonId,
+    setLessonId,
+  } = useLesson();
+
+  if (!lesson) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+        Lesson not found.
+      </div>
+    );
+  }
+
+  // Lesson পরিবর্তন হলে Input Clear হবে
+  useEffect(() => {
+    setInput("");
+  }, [lessonId]);
+
   const seconds = useTypingTimer(input.length > 0);
 
   const result = useMemo(
-    () => compareText(sampleText, input),
-    [input]
+    () => compareText(lesson.text, input),
+    [lesson.text, input]
   );
 
   const accuracy = calculateAccuracy(
@@ -26,78 +48,123 @@ export default function PracticePage() {
     result.incorrect
   );
 
+  const handleRestart = () => {
+    setInput("");
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 px-6 py-24 text-white">
-      <div className="mx-auto max-w-5xl">
+    <>
+      <div className="min-h-screen bg-slate-950 text-white">
 
-        <h1 className="mb-10 text-center text-4xl font-bold">
-          Bangla Typing Practice
-        </h1>
+        <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-24 lg:flex-row">
 
-        {/* Typing Area */}
-        <div
-          className="cursor-text rounded-xl border border-slate-700 bg-slate-900 p-6"
-          onClick={() =>
-            (
-              document.querySelector("textarea") as HTMLTextAreaElement
-            )?.focus()
-          }
-        >
-          <TypingText
-            expected={sampleText}
-            typed={input}
-          />
-        </div>
+          {/* ================= LEFT SIDEBAR ================= */}
 
-        {/* Hidden Input */}
-        <HiddenInput
-          value={input}
-          onChange={setInput}
-        />
+          <aside className="w-full lg:w-80">
 
-        {/* Stats */}
-        <StatsBar
-          seconds={seconds}
-          accuracy={accuracy}
-          characters={input.length}
-        />
-
-        {/* Detailed Statistics */}
-        <div className="mt-8 grid grid-cols-3 gap-4">
-
-          <div className="rounded-xl bg-slate-900 p-5 text-center">
-            <h2 className="text-sm text-slate-400">
-              Correct
+            <h2 className="mb-5 text-2xl font-bold">
+              Lessons
             </h2>
 
-            <p className="mt-2 text-3xl font-bold text-green-400">
-              {result.correct}
+            <LessonList
+              activeLessonId={lessonId}
+              onSelect={setLessonId}
+            />
+
+          </aside>
+
+          {/* ================= RIGHT CONTENT ================= */}
+
+          <main className="flex-1">
+
+            <h1 className="mb-2 text-4xl font-bold">
+              {lesson.title}
+            </h1>
+
+            <p className="mb-8 text-slate-400">
+              {lesson.description}
             </p>
-          </div>
 
-          <div className="rounded-xl bg-slate-900 p-5 text-center">
-            <h2 className="text-sm text-slate-400">
-              Incorrect
-            </h2>
+            <ProgressBar
+              current={input.length}
+              total={lesson.text.length}
+            />
 
-            <p className="mt-2 text-3xl font-bold text-red-400">
-              {result.incorrect}
-            </p>
-          </div>
+            <div
+              className="cursor-text rounded-2xl border border-slate-700 bg-slate-900 p-8"
+              onClick={() =>
+                (
+                  document.querySelector(
+                    "textarea"
+                  ) as HTMLTextAreaElement
+                )?.focus()
+              }
+            >
+              <TypingText
+                expected={lesson.text}
+                typed={input}
+              />
+            </div>
 
-          <div className="rounded-xl bg-slate-900 p-5 text-center">
-            <h2 className="text-sm text-slate-400">
-              Characters
-            </h2>
+            <HiddenInput
+              value={input}
+              onChange={setInput}
+            />
 
-            <p className="mt-2 text-3xl font-bold text-cyan-400">
-              {input.length}
-            </p>
-          </div>
+            <StatsBar
+              seconds={seconds}
+              accuracy={accuracy}
+              characters={input.length}
+            />
+
+            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+
+              <div className="rounded-xl bg-slate-900 p-5 text-center">
+                <h3 className="text-sm text-slate-400">
+                  Correct
+                </h3>
+
+                <p className="mt-2 text-3xl font-bold text-green-400">
+                  {result.correct}
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-slate-900 p-5 text-center">
+                <h3 className="text-sm text-slate-400">
+                  Incorrect
+                </h3>
+
+                <p className="mt-2 text-3xl font-bold text-red-400">
+                  {result.incorrect}
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-slate-900 p-5 text-center">
+                <h3 className="text-sm text-slate-400">
+                  Characters
+                </h3>
+
+                <p className="mt-2 text-3xl font-bold text-cyan-400">
+                  {input.length}
+                </p>
+              </div>
+
+            </div>
+
+            <RestartButton
+              onRestart={handleRestart}
+            />
+
+          </main>
 
         </div>
 
       </div>
-    </div>
+
+      <TestCompleted
+        show={input.length >= lesson.text.length}
+        onRestart={handleRestart}
+      />
+    </>
   );
 }

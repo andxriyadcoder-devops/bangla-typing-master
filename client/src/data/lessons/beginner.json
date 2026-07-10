@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "স্বরবর্ণ",
+    "description": "বাংলা স্বরবর্ণ অনুশীলন",
+    "text": "অ আ ই ঈ উ ঊ ঋ এ ঐ ও ঔ",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": 2,
+    "title": "ব্যঞ্জনবর্ণ",
+    "description": "বাংলা ব্যঞ্জনবর্ণ অনুশীলন",
+    "text": "ক খ গ ঘ ঙ চ ছ জ ঝ ঞ",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": 3,
+    "title": "সহজ শব্দ",
+    "description": "ছোট ছোট বাংলা শব্দ",
+    "text": "আমি তুমি সে তারা আমরা",
+    "difficulty": "Beginner"
+  }
+]
