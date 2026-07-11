@@ -4,20 +4,20 @@ import { bijoyLayout } from "./layouts/bijoy";
 import { avroLayout } from "./layouts/avro";
 import { nationalLayout } from "./layouts/national";
 
-import { getActiveKey } from "./engine/getActiveKey";
-
 import { useKeyboardLayout } from "../context/KeyboardLayoutContext";
+import useKeyboardHighlight from "./hooks/useKeyboardHighlight";
 
 interface KeyboardProps {
   activeKey?: string;
 }
 
 export default function Keyboard({
-  activeKey = "",
+  activeKey: _activeKey,
 }: KeyboardProps) {
   const { layout } = useKeyboardLayout();
 
-  const highlightedKey = getActiveKey(activeKey);
+  // Physical keyboard highlight
+  const activeKey = useKeyboardHighlight();
 
   const keyboardLayout =
     layout === "bijoy"
@@ -40,7 +40,7 @@ export default function Keyboard({
                 label={key.label}
                 active={
                   key.id.toLowerCase() ===
-                  highlightedKey.toLowerCase()
+                  activeKey.toLowerCase()
                 }
               />
             ))}
