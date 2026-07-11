@@ -3,32 +3,45 @@ import type { Lesson } from "../../types/lesson";
 interface LessonCardProps {
   lesson: Lesson;
   active: boolean;
+  locked: boolean;
   onClick: () => void;
 }
 
 export default function LessonCard({
   lesson,
   active,
+  locked,
   onClick,
 }: LessonCardProps) {
   return (
     <button
       onClick={onClick}
-      className={`w-full rounded-xl p-4 text-left transition ${
+      disabled={locked}
+      className={`w-full rounded-xl border p-4 text-left transition ${
         active
-          ? "bg-cyan-600 text-white"
-          : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+          ? "border-cyan-500 bg-cyan-500/10"
+          : "border-slate-700 bg-slate-900"
+      } ${
+        locked
+          ? "cursor-not-allowed opacity-50"
+          : "hover:border-cyan-400"
       }`}
     >
-      <h3 className="font-semibold">{lesson.title}</h3>
+      <div className="flex items-center justify-between">
+        <h3 className="font-semibold">
+          {lesson.title}
+        </h3>
 
-      <p className="mt-1 text-sm opacity-80">
+        {locked ? (
+          <span className="text-xl">🔒</span>
+        ) : (
+          <span className="text-xl">✅</span>
+        )}
+      </div>
+
+      <p className="mt-2 text-sm text-slate-400">
         {lesson.description}
       </p>
-
-      <span className="mt-3 inline-block rounded bg-slate-900 px-2 py-1 text-xs">
-        {lesson.difficulty}
-      </span>
     </button>
   );
 }
