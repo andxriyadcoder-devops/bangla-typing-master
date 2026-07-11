@@ -14,6 +14,7 @@ import useLesson from "../hooks/useLesson";
 
 import LessonList from "../features/lessons/LessonList";
 import Keyboard from "../keyboard/Keyboard";
+import KeyboardLayoutSelector from "../components/layout/KeyboardLayoutSelector";
 
 export default function PracticePage() {
   const [input, setInput] = useState("");
@@ -80,6 +81,7 @@ export default function PracticePage() {
             <h1 className="mb-2 text-4xl font-bold">
               {lesson.title}
             </h1>
+            <KeyboardLayoutSelector />
 
             <p className="mb-8 text-slate-400">
               {lesson.description}
