@@ -24,7 +24,7 @@ export default function PracticePage() {
     setLessonId,
   } = useLesson();
 
-  // সব Hook সবসময় আগে কল হবে
+  // সব Hook সব সময় আগে কল হবে
   const lessonText = lesson?.text ?? "";
 
   const seconds = useTypingTimer(input.length > 0);
