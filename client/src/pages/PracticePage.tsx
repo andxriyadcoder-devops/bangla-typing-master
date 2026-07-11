@@ -1,21 +1,19 @@
 import { useMemo, useState } from "react";
 
-import TypingText from "../components/typing/TypingText";
-import HiddenInput from "../components/typing/HiddenInput";
-import StatsBar from "../components/typing/StatsBar";
-import ProgressBar from "../components/typing/ProgressBar";
-import RestartButton from "../components/typing/RestartButton";
-import TestCompleted from "../components/typing/TestCompleted";
-
 import { compareText } from "../engine/matcher/compare";
 import { calculateAccuracy } from "../engine/stats/calculate";
+
 import useTypingTimer from "../hooks/useTypingTimer";
 import useLesson from "../hooks/useLesson";
+
 import { unlockLesson } from "../services/progressService";
 
-import LessonList from "../features/lessons/LessonList";
-import Keyboard from "../keyboard/Keyboard";
-import KeyboardLayoutSelector from "../components/layout/KeyboardLayoutSelector";
+import TestCompleted from "../components/typing/TestCompleted";
+
+import PracticeHeader from "../features/practice/components/PracticeHeader";
+import LessonSidebar from "../features/practice/components/LessonSidebar";
+import TypingPanel from "../features/practice/components/TypingPanel";
+import StatsPanel from "../features/practice/components/StatsPanel";
 
 export default function PracticePage() {
   const [input, setInput] = useState("");
@@ -26,7 +24,6 @@ export default function PracticePage() {
     setLessonId,
   } = useLesson();
 
-  // সব Hook সব সময় আগে কল হবে
   const lessonText = lesson?.text ?? "";
 
   const seconds = useTypingTimer(input.length > 0);
@@ -44,17 +41,18 @@ export default function PracticePage() {
   const handleRestart = () => {
     setInput("");
   };
-  const handleComplete = () => {
-    unlockLesson(lesson.id + 1);
- };
-
 
   const handleLessonChange = (id: number) => {
     setLessonId(id);
     setInput("");
   };
 
-  // সব Hook-এর পরে Return Check
+  const handleComplete = () => {
+    if (lesson) {
+      unlockLesson(lesson.id + 1);
+    }
+  };
+
   if (!lesson) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
@@ -68,114 +66,42 @@ export default function PracticePage() {
       <div className="min-h-screen bg-slate-950 text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-24 lg:flex-row">
 
-          {/* Sidebar */}
-          <aside className="w-full lg:w-80">
-            <h2 className="mb-5 text-2xl font-bold">
-              Lessons
-            </h2>
+          <LessonSidebar
+            lessonId={lessonId}
+            onLessonChange={handleLessonChange}
+          />
 
-            <LessonList
-              activeLessonId={lessonId}
-              onSelect={handleLessonChange}
-            />
-          </aside>
-
-          {/* Main Content */}
           <main className="flex-1">
 
-            <h1 className="mb-2 text-4xl font-bold">
-              {lesson.title}
-            </h1>
-            <KeyboardLayoutSelector />
+            <PracticeHeader lesson={lesson} />
 
-            <p className="mb-8 text-slate-400">
-              {lesson.description}
-            </p>
-
-            <ProgressBar
-              current={input.length}
-              total={lesson.text.length}
+            <TypingPanel
+              text={lesson.text}
+              input={input}
+              setInput={setInput}
             />
 
-            <div
-              className="mt-6 cursor-text rounded-2xl border border-slate-700 bg-slate-900 p-8"
-              onClick={() =>
-                (
-                  document.querySelector(
-                    "textarea"
-                  ) as HTMLTextAreaElement
-                )?.focus()
-              }
-            >
-              <TypingText
-                expected={lesson.text}
-                typed={input}
-              />
-            </div>
-
-            <HiddenInput
-              value={input}
-              onChange={setInput}
-            />
-
-            <StatsBar
+            <StatsPanel
               seconds={seconds}
               accuracy={accuracy}
               characters={input.length}
-            />
-
-            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-
-              <div className="rounded-xl bg-slate-900 p-5 text-center">
-                <h3 className="text-sm text-slate-400">
-                  Correct
-                </h3>
-
-                <p className="mt-2 text-3xl font-bold text-green-400">
-                  {result.correct}
-                </p>
-              </div>
-
-              <div className="rounded-xl bg-slate-900 p-5 text-center">
-                <h3 className="text-sm text-slate-400">
-                  Incorrect
-                </h3>
-
-                <p className="mt-2 text-3xl font-bold text-red-400">
-                  {result.incorrect}
-                </p>
-              </div>
-
-              <div className="rounded-xl bg-slate-900 p-5 text-center">
-                <h3 className="text-sm text-slate-400">
-                  Characters
-                </h3>
-
-                <p className="mt-2 text-3xl font-bold text-cyan-400">
-                  {input.length}
-                </p>
-              </div>
-
-            </div>
-
-            <RestartButton
+              correct={result.correct}
+              incorrect={result.incorrect}
               onRestart={handleRestart}
-            />
-            <Keyboard 
-              activeKey={input.slice(-1)}
             />
 
           </main>
+
         </div>
       </div>
 
-        <TestCompleted
-          show={input.length >= lesson.text.length}
-          onRestart={() => {
-            handleComplete();
-            handleRestart();
-          }}
-        />
+      <TestCompleted
+        show={input.length >= lesson.text.length}
+        onRestart={() => {
+          handleComplete();
+          handleRestart();
+        }}
+      />
     </>
   );
 }
