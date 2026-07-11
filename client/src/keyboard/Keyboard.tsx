@@ -1,5 +1,6 @@
 import Key from "./Key";
 import { bijoyLayout } from "./layouts/bijoy";
+import { getActiveKey } from "./engine/getActiveKey";
 
 interface KeyboardProps {
   activeKey?: string;
@@ -8,6 +9,8 @@ interface KeyboardProps {
 export default function Keyboard({
   activeKey = "",
 }: KeyboardProps) {
+  const highlightedKey = getActiveKey(activeKey);
+
   return (
     <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-950 p-6">
       <div className="space-y-3">
@@ -20,7 +23,10 @@ export default function Keyboard({
               <Key
                 key={key.id}
                 label={key.label}
-                active={key.id === activeKey.toLowerCase()}
+                active={
+                  key.id.toLowerCase() ===
+                  highlightedKey.toLowerCase()
+                }
               />
             ))}
           </div>
