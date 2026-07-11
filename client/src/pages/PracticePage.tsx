@@ -11,6 +11,7 @@ import { compareText } from "../engine/matcher/compare";
 import { calculateAccuracy } from "../engine/stats/calculate";
 import useTypingTimer from "../hooks/useTypingTimer";
 import useLesson from "../hooks/useLesson";
+import { unlockLesson } from "../services/progressService";
 
 import LessonList from "../features/lessons/LessonList";
 import Keyboard from "../keyboard/Keyboard";
@@ -43,6 +44,10 @@ export default function PracticePage() {
   const handleRestart = () => {
     setInput("");
   };
+  const handleComplete = () => {
+    unlockLesson(lesson.id + 1);
+ };
+
 
   const handleLessonChange = (id: number) => {
     setLessonId(id);
@@ -164,10 +169,13 @@ export default function PracticePage() {
         </div>
       </div>
 
-      <TestCompleted
-        show={input.length >= lesson.text.length}
-        onRestart={handleRestart}
-      />
+        <TestCompleted
+          show={input.length >= lesson.text.length}
+          onRestart={() => {
+            handleComplete();
+            handleRestart();
+          }}
+        />
     </>
   );
 }
