@@ -7,12 +7,14 @@ interface TypingPanelProps {
   text: string;
   input: string;
   setInput: (value: string) => void;
+  expectedKey: string;
 }
 
 export default function TypingPanel({
   text,
   input,
   setInput,
+  expectedKey,
 }: TypingPanelProps) {
   return (
     <>
@@ -43,7 +45,7 @@ export default function TypingPanel({
       />
 
       <Keyboard
-        activeKey={input.slice(-1)}
+        expectedKey={expectedKey}
       />
     </>
   );

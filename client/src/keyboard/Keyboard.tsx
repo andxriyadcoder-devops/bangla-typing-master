@@ -8,15 +8,14 @@ import { useKeyboardLayout } from "../context/KeyboardLayoutContext";
 import useKeyboardHighlight from "./hooks/useKeyboardHighlight";
 
 interface KeyboardProps {
-  activeKey?: string;
+  expectedKey: string;
 }
 
 export default function Keyboard({
-  activeKey: _activeKey,
+  expectedKey,
 }: KeyboardProps) {
   const { layout } = useKeyboardLayout();
 
-  // Physical keyboard highlight
   const activeKey = useKeyboardHighlight();
 
   const keyboardLayout =
@@ -38,10 +37,8 @@ export default function Keyboard({
               <Key
                 key={key.id}
                 label={key.label}
-                active={
-                  key.id.toLowerCase() ===
-                  activeKey.toLowerCase()
-                }
+                active={key.id === activeKey}
+                expected={key.id === expectedKey}
               />
             ))}
           </div>

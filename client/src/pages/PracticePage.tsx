@@ -15,6 +15,8 @@ import LessonSidebar from "../features/practice/components/LessonSidebar";
 import TypingPanel from "../features/practice/components/TypingPanel";
 import StatsPanel from "../features/practice/components/StatsPanel";
 
+import { getExpectedKey } from "../keyboard/utils/getExpectedKey";
+
 export default function PracticePage() {
   const [input, setInput] = useState("");
 
@@ -24,6 +26,7 @@ export default function PracticePage() {
     setLessonId,
   } = useLesson();
 
+  // Hooks সবসময় আগে
   const lessonText = lesson?.text ?? "";
 
   const seconds = useTypingTimer(input.length > 0);
@@ -37,6 +40,12 @@ export default function PracticePage() {
     result.correct,
     result.incorrect
   );
+
+  const currentCharacter =
+    lessonText[input.length] ?? "";
+
+  const expectedKey =
+    getExpectedKey(currentCharacter);
 
   const handleRestart = () => {
     setInput("");
@@ -53,6 +62,7 @@ export default function PracticePage() {
     }
   };
 
+  // Hooks-এর পরে Return
   if (!lesson) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
@@ -73,12 +83,15 @@ export default function PracticePage() {
 
           <main className="flex-1">
 
-            <PracticeHeader lesson={lesson} />
+            <PracticeHeader
+              lesson={lesson}
+            />
 
             <TypingPanel
-              text={lesson.text}
+              text={lessonText}
               input={input}
               setInput={setInput}
+              expectedKey={expectedKey}
             />
 
             <StatsPanel
@@ -96,7 +109,7 @@ export default function PracticePage() {
       </div>
 
       <TestCompleted
-        show={input.length >= lesson.text.length}
+        show={input.length >= lessonText.length}
         onRestart={() => {
           handleComplete();
           handleRestart();
