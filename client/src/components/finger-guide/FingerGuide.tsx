@@ -21,7 +21,7 @@ export default function FingerGuide({
   return (
     <div className="mt-8">
       <h3 className="mb-4 text-xl font-semibold text-white">
-        Recommended Finger
+        Recommended Finger (Bijoy 52)
       </h3>
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">

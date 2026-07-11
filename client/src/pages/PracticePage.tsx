@@ -16,6 +16,7 @@ import TypingPanel from "../features/practice/components/TypingPanel";
 import StatsPanel from "../features/practice/components/StatsPanel";
 
 import { getExpectedKey } from "../keyboard/utils/getExpectedKey";
+import { getExpectedFinger } from "../keyboard/utils/getExpectedFinger";
 
 export default function PracticePage() {
   const [input, setInput] = useState("");
@@ -46,6 +47,9 @@ export default function PracticePage() {
 
   const expectedKey =
     getExpectedKey(currentCharacter);
+
+  const expectedFinger =
+  getExpectedFinger(currentCharacter);
 
   const handleRestart = () => {
     setInput("");
@@ -92,6 +96,7 @@ export default function PracticePage() {
               input={input}
               setInput={setInput}
               expectedKey={expectedKey}
+              expectedFinger={expectedFinger}
             />
 
             <StatsPanel

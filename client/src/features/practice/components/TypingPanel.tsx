@@ -1,6 +1,7 @@
 import ProgressBar from "../../../components/typing/ProgressBar";
 import TypingText from "../../../components/typing/TypingText";
 import HiddenInput from "../../../components/typing/HiddenInput";
+import FingerGuide from "../../../components/finger-guide/FingerGuide";
 import Keyboard from "../../../keyboard/Keyboard";
 
 interface TypingPanelProps {
@@ -8,6 +9,7 @@ interface TypingPanelProps {
   input: string;
   setInput: (value: string) => void;
   expectedKey: string;
+  expectedFinger: string;
 }
 
 export default function TypingPanel({
@@ -15,6 +17,7 @@ export default function TypingPanel({
   input,
   setInput,
   expectedKey,
+  expectedFinger,
 }: TypingPanelProps) {
   return (
     <>
@@ -46,6 +49,10 @@ export default function TypingPanel({
 
       <Keyboard
         expectedKey={expectedKey}
+      />
+
+      <FingerGuide
+        activeFinger={expectedFinger}
       />
     </>
   );
