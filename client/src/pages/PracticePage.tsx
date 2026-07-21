@@ -17,6 +17,7 @@ import StatsPanel from "../features/practice/components/StatsPanel";
 
 import { getExpectedKey } from "../keyboard/utils/getExpectedKey";
 import { getExpectedFinger } from "../keyboard/utils/getExpectedFinger";
+import { addXP } from "../services/xp/xpService";
 
 export default function PracticePage() {
   const [input, setInput] = useState("");
@@ -61,10 +62,12 @@ export default function PracticePage() {
   };
 
   const handleComplete = () => {
-    if (lesson) {
-      unlockLesson(lesson.id + 1);
-    }
-  };
+  if (!lesson) return;
+
+  unlockLesson(lesson.id + 1);
+
+  addXP(50);
+};
 
   // Hooks-এর পরে Return
   if (!lesson) {

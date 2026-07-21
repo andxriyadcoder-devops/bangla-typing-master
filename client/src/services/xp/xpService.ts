@@ -7,6 +7,7 @@ export function getXP(): number {
 
 export function addXP(amount: number): number {
   const current = getXP();
+
   const updated = current + amount;
 
   localStorage.setItem(
@@ -14,9 +15,17 @@ export function addXP(amount: number): number {
     updated.toString()
   );
 
+  window.dispatchEvent(
+    new Event("xp-updated")
+  );
+
   return updated;
 }
 
 export function resetXP(): void {
   localStorage.removeItem(XP_KEY);
+
+  window.dispatchEvent(
+    new Event("xp-updated")
+  );
 }
