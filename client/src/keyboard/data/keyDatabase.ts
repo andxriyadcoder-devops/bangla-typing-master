@@ -265,4 +265,261 @@ export const keyDatabase: KeyboardKeyData[] = [
     hand: "right",
     isModifier: true,
   },
+    // ==========================
+  // QWERTY Row
+  // ==========================
+
+  {
+    id: "Tab",
+    code: "Tab",
+    primary: "Tab",
+    width: 1.5,
+    finger: "left-pinky",
+    hand: "left",
+    isModifier: true,
+  },
+
+  {
+    id: "KeyQ",
+    code: "KeyQ",
+    primary: "Q",
+    width: 1,
+    finger: "left-pinky",
+    hand: "left",
+  },
+
+  {
+    id: "KeyW",
+    code: "KeyW",
+    primary: "W",
+    width: 1,
+    finger: "left-ring",
+    hand: "left",
+  },
+
+  {
+    id: "KeyE",
+    code: "KeyE",
+    primary: "E",
+    width: 1,
+    finger: "left-middle",
+    hand: "left",
+  },
+
+  {
+    id: "KeyR",
+    code: "KeyR",
+    primary: "R",
+    width: 1,
+    finger: "left-index",
+    hand: "left",
+  },
+
+  {
+    id: "KeyT",
+    code: "KeyT",
+    primary: "T",
+    width: 1,
+    finger: "left-index",
+    hand: "left",
+  },
+
+  {
+    id: "KeyY",
+    code: "KeyY",
+    primary: "Y",
+    width: 1,
+    finger: "right-index",
+    hand: "right",
+  },
+
+  {
+    id: "KeyU",
+    code: "KeyU",
+    primary: "U",
+    width: 1,
+    finger: "right-index",
+    hand: "right",
+  },
+
+  {
+    id: "KeyI",
+    code: "KeyI",
+    primary: "I",
+    width: 1,
+    finger: "right-middle",
+    hand: "right",
+  },
+
+  {
+    id: "KeyO",
+    code: "KeyO",
+    primary: "O",
+    width: 1,
+    finger: "right-ring",
+    hand: "right",
+  },
+
+  {
+    id: "KeyP",
+    code: "KeyP",
+    primary: "P",
+    width: 1,
+    finger: "right-pinky",
+    hand: "right",
+  },
+
+  {
+    id: "BracketLeft",
+    code: "BracketLeft",
+    primary: "[",
+    shift: "{",
+    width: 1,
+    finger: "right-pinky",
+    hand: "right",
+  },
+
+  {
+    id: "BracketRight",
+    code: "BracketRight",
+    primary: "]",
+    shift: "}",
+    width: 1,
+    finger: "right-pinky",
+    hand: "right",
+  },
+
+  {
+    id: "Backslash",
+    code: "Backslash",
+    primary: "\\",
+    shift: "|",
+    width: 1.5,
+    finger: "right-pinky",
+    hand: "right",
+  },
+    // ==========================
+  // Home Row
+  // ==========================
+
+  {
+    id: "CapsLock",
+    code: "CapsLock",
+    primary: "Caps",
+    width: 1.75,
+    finger: "left-pinky",
+    hand: "left",
+    isModifier: true,
+  },
+
+  {
+    id: "KeyA",
+    code: "KeyA",
+    primary: "A",
+    width: 1,
+    finger: "left-pinky",
+    hand: "left",
+  },
+
+  {
+    id: "KeyS",
+    code: "KeyS",
+    primary: "S",
+    width: 1,
+    finger: "left-ring",
+    hand: "left",
+  },
+
+  {
+    id: "KeyD",
+    code: "KeyD",
+    primary: "D",
+    width: 1,
+    finger: "left-middle",
+    hand: "left",
+  },
+
+  {
+    id: "KeyF",
+    code: "KeyF",
+    primary: "F",
+    width: 1,
+    finger: "left-index",
+    hand: "left",
+  },
+
+  {
+    id: "KeyG",
+    code: "KeyG",
+    primary: "G",
+    width: 1,
+    finger: "left-index",
+    hand: "left",
+  },
+
+  {
+    id: "KeyH",
+    code: "KeyH",
+    primary: "H",
+    width: 1,
+    finger: "right-index",
+    hand: "right",
+  },
+
+  {
+    id: "KeyJ",
+    code: "KeyJ",
+    primary: "J",
+    width: 1,
+    finger: "right-index",
+    hand: "right",
+  },
+
+  {
+    id: "KeyK",
+    code: "KeyK",
+    primary: "K",
+    width: 1,
+    finger: "right-middle",
+    hand: "right",
+  },
+
+  {
+    id: "KeyL",
+    code: "KeyL",
+    primary: "L",
+    width: 1,
+    finger: "right-ring",
+    hand: "right",
+  },
+
+  {
+    id: "Semicolon",
+    code: "Semicolon",
+    primary: ";",
+    shift: ":",
+    width: 1,
+    finger: "right-pinky",
+    hand: "right",
+  },
+
+  {
+    id: "Quote",
+    code: "Quote",
+    primary: "'",
+    shift: "\"",
+    width: 1,
+    finger: "right-pinky",
+    hand: "right",
+  },
+
+  {
+    id: "Enter",
+    code: "Enter",
+    primary: "Enter",
+    width: 2.25,
+    finger: "right-pinky",
+    hand: "right",
+    isModifier: true,
+  },
 ];
